@@ -11,6 +11,22 @@ export const CalculatorScreen = () => {
 
   const handleClear = () => setNumber(initialNumber);
 
+  const deleteLastEntry = () => {
+    let negative = '';
+    let tempNumber = number;
+
+    if (number.includes('-')) {
+      negative = '-';
+      tempNumber = number.substring(1);
+    }
+
+    if (number.length > 1) {
+      setNumber(negative + tempNumber.slice(0, -1));
+    } else {
+      setNumber(initialNumber);
+    }
+  };
+
   const createNumber = (numberText: string) => {
     if (number.includes('.') && numberText === '.') return;
 
@@ -53,7 +69,7 @@ export const CalculatorScreen = () => {
           color="#9b9b9b"
           action={handleToggleSymbol}
         />
-        <ButtonCalculator text="del" color="#9b9b9b" action={handleClear} />
+        <ButtonCalculator text="del" color="#9b9b9b" action={deleteLastEntry} />
         <ButtonCalculator text="/" color="#ff9427" action={handleClear} />
       </View>
 
