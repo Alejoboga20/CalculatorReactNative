@@ -12,7 +12,31 @@ export const CalculatorScreen = () => {
   const handleClear = () => setNumber(initialNumber);
 
   const createNumber = (numberText: string) => {
-    setNumber(number + numberText);
+    if (number.includes('.') && numberText === '.') return;
+
+    if (number.startsWith('0') || number.startsWith('-0')) {
+      if (numberText === '.') {
+        setNumber(number + numberText);
+      } else if (numberText === '0' && number.includes('.')) {
+        setNumber(number + numberText);
+      } else if (numberText !== '0' && !number.includes('.')) {
+        setNumber(numberText);
+      } else if (numberText === '0' && !number.includes('.')) {
+        setNumber(number);
+      } else {
+        setNumber(number + numberText);
+      }
+    } else {
+      setNumber(number + numberText);
+    }
+  };
+
+  const handleToggleSymbol = () => {
+    if (number.includes('-')) {
+      setNumber(number.replace('-', ''));
+    } else {
+      setNumber('-' + number);
+    }
   };
 
   return (
@@ -24,7 +48,11 @@ export const CalculatorScreen = () => {
 
       <View style={styles.row}>
         <ButtonCalculator text="C" color="#9b9b9b" action={handleClear} />
-        <ButtonCalculator text="+/-" color="#9b9b9b" action={handleClear} />
+        <ButtonCalculator
+          text="+/-"
+          color="#9b9b9b"
+          action={handleToggleSymbol}
+        />
         <ButtonCalculator text="del" color="#9b9b9b" action={handleClear} />
         <ButtonCalculator text="/" color="#ff9427" action={handleClear} />
       </View>
