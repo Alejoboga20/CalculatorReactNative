@@ -3,12 +3,13 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { styles } from '../theme/appTheme';
 
 export const ButtonCalculator = ({
+  action,
   color = '#2d2d2d',
   isBigButton = false,
   text,
 }: ButtonCalculatorProps) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => action(text)}>
       <View
         style={{
           ...styles.button,
@@ -28,6 +29,7 @@ export const ButtonCalculator = ({
 };
 
 interface ButtonCalculatorProps {
+  action: (numberText: string) => void;
   color?: string;
   isBigButton?: boolean;
   text: string;

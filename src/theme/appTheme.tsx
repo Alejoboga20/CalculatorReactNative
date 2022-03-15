@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
   result: {
     color: 'white',
     fontSize: 60,
+    marginBottom: 10,
     textAlign: 'right',
   },
   smallResult: {
@@ -27,7 +28,6 @@ export const styles = StyleSheet.create({
     marginBottom: 18,
     paddingHorizontal: 10,
   },
-
   button: {
     backgroundColor: '#2d2d2d',
     borderRadius: 100,
