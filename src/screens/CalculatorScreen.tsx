@@ -15,6 +15,34 @@ export const CalculatorScreen = () => {
         <ButtonCalculator text="del" color="#9b9b9b" />
         <ButtonCalculator text="/" color="#ff9427" />
       </View>
+
+      <View style={styles.row}>
+        <ButtonCalculator text="7" />
+        <ButtonCalculator text="8" />
+        <ButtonCalculator text="9" />
+        <ButtonCalculator text="X" color="#ff9427" />
+      </View>
+
+      <View style={styles.row}>
+        <ButtonCalculator text="4" />
+        <ButtonCalculator text="5" />
+        <ButtonCalculator text="5" />
+        <ButtonCalculator text="-" color="#ff9427" />
+      </View>
+
+      <View style={styles.row}>
+        <ButtonCalculator text="1" />
+        <ButtonCalculator text="2" />
+        <ButtonCalculator text="3" />
+        <ButtonCalculator text="+" color="#ff9427" />
+      </View>
+
+      <View style={styles.row}>
+        <ButtonCalculator text="0" isBigButton />
+
+        <ButtonCalculator text="." />
+        <ButtonCalculator text="=" color="#ff9427" />
+      </View>
     </View>
   );
 };
