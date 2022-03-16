@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Text, View } from 'react-native';
 import { ButtonCalculator } from '../components/ButtonCalculator';
 import { styles } from '../theme/appTheme';
@@ -13,9 +13,9 @@ enum Operators {
 }
 
 export const CalculatorScreen = () => {
-  const [number, setNumber] = React.useState(initialNumber);
-  const [prevNumber, setPrevNumber] = React.useState(initialNumber);
-  const lastOperation = React.useRef<Operators>();
+  const [number, setNumber] = useState(initialNumber);
+  const [prevNumber, setPrevNumber] = useState(initialNumber);
+  const lastOperation = useRef<Operators>();
 
   const handleClear = () => {
     setNumber(initialNumber);
@@ -96,6 +96,32 @@ export const CalculatorScreen = () => {
     lastOperation.current = Operators.sum;
   };
 
+  const calculate = () => {
+    const firstNumber = Number(number);
+    const secondNumber = Number(prevNumber);
+
+    switch (lastOperation.current) {
+      case Operators.sum:
+        setNumber(`${firstNumber + secondNumber}`);
+
+        break;
+      case Operators.diff:
+        setNumber(`${secondNumber - firstNumber}`);
+        break;
+      case Operators.times:
+        setNumber(`${firstNumber * secondNumber}`);
+        break;
+      case Operators.division:
+        setNumber(`${secondNumber / firstNumber}`);
+        break;
+
+      default:
+        break;
+    }
+
+    setPrevNumber(initialNumber);
+  };
+
   return (
     <View style={styles.calculatorContainer}>
       {prevNumber !== '0' && (
@@ -141,7 +167,7 @@ export const CalculatorScreen = () => {
         <ButtonCalculator text="0" action={createNumber} />
 
         <ButtonCalculator text="." action={createNumber} />
-        <ButtonCalculator text="=" color="#ff9427" action={handleClear} />
+        <ButtonCalculator text="=" color="#ff9427" action={calculate} />
       </View>
     </View>
   );
