@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import { ButtonCalculator } from '../components/ButtonCalculator';
 import { styles } from '../theme/appTheme';
 
 const initialNumber = '0';
 
-export const CalculatorScreen = () => {
-  const [number, setNumber] = useState(initialNumber);
-  const [prevNumber, setPrevNumber] = useState(initialNumber);
+enum Operators {
+  sum,
+  diff,
+  times,
+  division,
+}
 
-  const handleClear = () => setNumber(initialNumber);
+export const CalculatorScreen = () => {
+  const [number, setNumber] = React.useState(initialNumber);
+  const [prevNumber, setPrevNumber] = React.useState(initialNumber);
+  const lastOperation = React.useRef<Operators>();
+
+  const handleClear = () => {
+    setNumber(initialNumber);
+    setPrevNumber(initialNumber);
+  };
 
   const deleteLastEntry = () => {
     let negative = '';
@@ -55,9 +66,41 @@ export const CalculatorScreen = () => {
     }
   };
 
+  const changeNumByPrev = () => {
+    if (number.endsWith('.')) {
+      setPrevNumber(number.slice(0, -1));
+    } else {
+      setPrevNumber(number);
+    }
+
+    setNumber(initialNumber);
+  };
+
+  const handleDivision = () => {
+    changeNumByPrev();
+    lastOperation.current = Operators.division;
+  };
+
+  const handleTimes = () => {
+    changeNumByPrev();
+    lastOperation.current = Operators.times;
+  };
+
+  const handleDiff = () => {
+    changeNumByPrev();
+    lastOperation.current = Operators.diff;
+  };
+
+  const handleSum = () => {
+    changeNumByPrev();
+    lastOperation.current = Operators.sum;
+  };
+
   return (
     <View style={styles.calculatorContainer}>
-      <Text style={styles.smallResult}>{prevNumber}</Text>
+      {prevNumber !== '0' && (
+        <Text style={styles.smallResult}>{prevNumber}</Text>
+      )}
       <Text style={styles.result} numberOfLines={1} adjustsFontSizeToFit>
         {number}
       </Text>
@@ -70,28 +113,28 @@ export const CalculatorScreen = () => {
           action={handleToggleSymbol}
         />
         <ButtonCalculator text="del" color="#9b9b9b" action={deleteLastEntry} />
-        <ButtonCalculator text="/" color="#ff9427" action={handleClear} />
+        <ButtonCalculator text="/" color="#ff9427" action={handleDivision} />
       </View>
 
       <View style={styles.row}>
         <ButtonCalculator text="7" action={createNumber} />
         <ButtonCalculator text="8" action={createNumber} />
         <ButtonCalculator text="9" action={createNumber} />
-        <ButtonCalculator text="X" color="#ff9427" action={handleClear} />
+        <ButtonCalculator text="X" color="#ff9427" action={handleTimes} />
       </View>
 
       <View style={styles.row}>
         <ButtonCalculator text="4" action={createNumber} />
         <ButtonCalculator text="5" action={createNumber} />
         <ButtonCalculator text="5" action={createNumber} />
-        <ButtonCalculator text="-" color="#ff9427" action={handleClear} />
+        <ButtonCalculator text="-" color="#ff9427" action={handleDiff} />
       </View>
 
       <View style={styles.row}>
         <ButtonCalculator text="1" action={createNumber} />
         <ButtonCalculator text="2" action={createNumber} />
         <ButtonCalculator text="3" action={createNumber} />
-        <ButtonCalculator text="+" color="#ff9427" action={handleClear} />
+        <ButtonCalculator text="+" color="#ff9427" action={handleSum} />
       </View>
 
       <View style={styles.row}>
